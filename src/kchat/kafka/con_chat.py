@@ -3,7 +3,7 @@ from json import loads
 
 consumer = KafkaConsumer(
         'chat',
-        bootstrap_servers=['localhost:9092'],
+        bootstrap_servers=['ec2-43-201-83-4.ap-northeast-2.compute.amazonaws.com:9092'],
         value_deserializer=lambda x: loads(x.decode('utf-8')),
         auto_offset_reset='earliest',
         group_id="chat-group",
@@ -17,7 +17,7 @@ print("메시지 대기 중 ...")
 try:
     for m in consumer:
         data = m.value
-        print(f"[철] {data['message']}")
+        print(f"[FREINDS] {data['message']}, {data['time']}")
 
 except KeyboardInterrupt:
     print("채팅 종료")

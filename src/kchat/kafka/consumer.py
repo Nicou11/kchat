@@ -18,7 +18,7 @@ saved_offset = read_offset()
 
 consumer =  KafkaConsumer(
         #"topic1",
-        bootstrap_servers=['localhost:9092'],
+        bootstrap_servers=['43.201.83.4:9092'],
         value_deserializer=lambda x: loads(x.decode('utf-8')),
         consumer_timeout_ms=10000,
         #auto_offset_reset='latest', 
