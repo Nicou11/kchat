@@ -4,17 +4,20 @@ import json
 from tqdm import tqdm
 
 producer = KafkaProducer(
-        bootstrap_servers=['ec2-43-201-83-4.ap-northeast-2.compute.amazonaws.com:9092'],
-        value_serializer=lambda x:json.dumps(x).encode('utf-8')
+        bootstrap_servers=['172.17.0.1:9092'],
+        value_serializer=lambda x:json.dumps(x).encode('utf-8'),
+        compression_type='gzip',
+        #batch_size=100
+        batch_size=100
 )
 
 start = time.time()
 
-for i in tqdm(range(10)):
+for i in tqdm(range(10000)):
     data = {'str': 'value' + str(i)}
-    producer.send('topic1', value=data)
+    producer.send('test-gzip-100', value=data)
     producer.flush()
-    time.sleep(0.1)
+    time.sleep(0.001)
 
 end = time.time()
 print("[DONE]:", end - start)

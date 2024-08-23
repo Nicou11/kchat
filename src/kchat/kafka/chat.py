@@ -10,7 +10,7 @@ def create_data(username, message, end):
 # SENDER
 def pchat(chatroom, username):
     sender = KafkaProducer(
-        bootstrap_servers = ['ec2-43-201-83-4.ap-northeast-2.compute.amazonaws.com:9092'],
+        bootstrap_servers = ['172.17.0.1:9092'],
         value_serializer = lambda x: dumps(x).encode('utf-8'),
     )
 
@@ -25,7 +25,7 @@ def pchat(chatroom, username):
         while True:
             message = ""
             while message == "":
-                print(f"{username}: ", end="")
+                #print(f"{username}: ", end="")
                 message = input()
         
             if message == 'exit':
@@ -50,7 +50,7 @@ def pchat(chatroom, username):
 def cchat(chatroom, username):
     receiver = KafkaConsumer(
         chatroom,
-        bootstrap_servers = ['ec2-43-201-83-4.ap-northeast-2.compute.amazonaws.com:9092'],
+        bootstrap_servers = ['172.17.0.1:9092'],
         enable_auto_commit = True,
         value_deserializer = lambda x: loads(x.decode('utf-8'))
     )
@@ -65,16 +65,16 @@ def cchat(chatroom, username):
                     print()
                     print(f"User {data['sender']} has exited the chat.")
                     print("Type in 'exit' to also finish the chat.")
-                    print(f"{username}: ", end="")
+                    #print(f"{username}: ", end="")
 
                 # I'm exiting!! finish thread
                 else:
                     return
 
             elif data['sender'] != username:
-                print()
+                #print()
                 print(f"{data['sender']}: {data['message']}")
-                print(f"{username}: ", end="")
+                #print(f"{username}: ", end="")
 
     except KeyboardInterrupt:
         print("Exiting chat...")
